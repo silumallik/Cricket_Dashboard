@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Scoreboard</title>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Team and Over Input Form -->
+    <form id="teamForm">
+      <h2>Enter Teams and Overs</h2>
+      <label>Team A Name:<input type="text" id="teamAName" placeholder="Enter Batsman Team Name" required></label>
+      <label>Team B Name:<input type="text" id="teamBName" placeholder="Enter Baller Team Name" required></label>
+      <label>Overs:<input type="number" id="totalOvers" placeholder="Enter Over" min="1" required></label>
+      <button type="submit">Start Match</button>
+    </form>
+
+    <!-- Bowler/Striker Form -->
+    <form id="playerForm" style="display:none;">
+      <h2>Enter Players</h2>
+      <label>Bowler Name:<input type="text" id="bowler" required></label>
+      <label>Striker Name:<input type="text" id="striker" required></label>
+      <label>Non-Striker Name:<input type="text" id="nonStriker" required></label>
+      <button type="submit">Start Innings</button>
+    </form>
+
+    <!-- Scoreboards for Team A & Team B -->
+    <div class="scoreboards">
+
+      <div class="team-board" id="teamABoard">
+        <h3>Team A: <span id="teamAHeader"></span></h3>
+        <p>Score: <span id="teamAScore">0/0</span> | Overs: <span id="teamAOvers">0.0</span></p>
+        <div id="teamAOverCards"></div>
+        <table id="teamAPlayers">
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Runs</th>
+              <th>Balls</th>
+              <th>1s</th>
+              <th>2s</th>
+              <th>4s</th>
+              <th>6s</th>
+              <th>SR</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="team-board" id="teamBBoard">
+      <h3>Team B: <span id="teamBHeader"></span></h3>
+      <p>Score: <span id="teamBScore">0/0</span> | Overs: <span id="teamBOvers">0.0</span></p>
+      <div id="teamBOverCards"></div>
+      <table id="teamBPlayers">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Runs</th>
+            <th>Balls</th>
+            <th>1s</th>
+            <th>2s</th>
+            <th>4s</th>
+            <th>6s</th>
+            <th>SR</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+  </div>
+
+  </div>
+
+  <!-- Bottom Nav for Target and Chase info -->
+  <div id="matchTargetNav"
+    style="position:fixed; bottom:0; left:0; width:100%; background:#222; color:white; padding:10px; text-align:center; font-size:16px; display:none;">
+    <span id="targetScore"></span> | <span id="chaseInfo"></span>
+  </div>
+
+  </div>
+
+  <!-- Bowler popup -->
+  <div id="bowlerPopup" style="display:none; position:fixed; top:0; left:0; 
+  width:100%; height:100%; background:rgba(0,0,0,0.5); 
+  justify-content:center; align-items:center;">
+    <form id="bowlerForm" style="background:#fff; padding:20px; border-radius:10px;">
+      <h3>Enter Bowler Name</h3>
+      <input type="text" id="nextBowler" placeholder="Bowler Name" required>
+      <button type="submit">Start Over</button>
+    </form>
+  </div>
+
+  <!-- Run Out Modal -->
+  <div id="roModal" style="display:none; position:fixed; top:0; left:0; 
+width:100%; height:100%; background:rgba(0,0,0,0.5); 
+justify-content:center; align-items:center;">
+
+    <form id="roForm" style="background:#fff; padding:20px auto; border-radius:10px;">
+      <h3>Run Out</h3>
+
+      <label>New Batsman Name:
+        <input type="text" id="roNewBatsman" required>
+      </label>
+
+      <label>Runs Completed:
+        <input type="number" id="roRuns" min="0" max="3" value="0">
+      </label>
+
+      <label>Who is Out:</label>
+      <select id="roOutPlayer">
+        <option value="striker">Striker</option>
+        <option value="nonStriker">Non-Striker</option>
+      </select>
+
+      <button type="submit">Submit</button>
+
+      <!-- ✅ CLOSE BUTTON INSIDE POPUP -->
+      <button type="button" id="roCloseBtn" style="background:red; margin-left:10px;">
+        Close
+      </button>
+
+    </form>
+  </div>
+
+  <!-- NB Modal -->
+  <div id="nbModal" style="display:none; position:fixed; top:0; left:0; 
+width:100%; height:100%; background:rgba(0,0,0,0.5); 
+justify-content:center; align-items:center;">
+
+    <form id="nbForm" style="background:#fff; padding:20px auto; border-radius:10px;">
+      <h3>No Ball</h3>
+
+      <label>Runs Taken:
+        <input type="number" id="nbRuns" min="0" value="0">
+      </label>
+
+      <label>Player Out?</label>
+      <select id="nbOutType">
+        <option value="no">No Wicket</option>
+        <option value="striker">Striker Out</option>
+        <option value="nonStriker">Non-Striker Out</option>
+      </select>
+
+      <label>New Batsman (if out):
+        <input type="text" id="nbNewBatsman">
+      </label>
+
+      <button type="submit">Submit</button>
+      <button type="button" id="nbCloseBtn" style="background:red;">Close</button>
+    </form>
+  </div>
+
+  <!-- Wicket Modal -->
+  <div id="wModal" style="display:none; position:fixed; top:0; left:0; 
+width:100%; height:100%; background:rgba(0,0,0,0.5); 
+justify-content:center; align-items:center;">
+
+    <form id="wForm" style="background:#fff; padding:20px auto; border-radius:10px;">
+      <h3>Wicket</h3>
+
+      <label>New Batsman Name:
+        <input type="text" id="wNewBatsman" required>
+      </label>
+
+      <button type="submit">Submit</button>
+      <button type="button" id="wCloseBtn" style="background:red;">Close</button>
+    </form>
+  </div>
+
+</body>
+
+</html>
