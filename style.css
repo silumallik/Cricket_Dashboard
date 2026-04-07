@@ -1,108 +1,236 @@
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* --fm:Verdana, Geneva, Tahoma, sans-serif; */
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    --fm: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.navlftcon {
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+    margin-top: -2px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+    padding: 0px auto;
+}
+
+#topNav {
+    display: flex;
+    position: sticky;
+    top: 0;
+    justify-content: space-between;
+    align-items: center;
+    background: #111;
+    color: #fff;
+    padding: 10px 15px;
+    border-bottom: 2px solid #444;
+}
+
+#topNav h3 {
+    margin: 0;
+}
+
+.nav-center,
+.nav-right {
+    font-size: 16px;
+    font-family: var(--fm);
+}
+
+.navitems {
+    text-align: center;
+}
+
+.active-batting {
+    color: thistle;
+    font-weight: bold;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        color: thistle;
     }
 
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background: #f5f5f5;
-        padding: 0px auto;
+    100% {
+        color: teal;
     }
+}
 
-    h2 {
-        margin: 10px 0;
-    }
+.inactive-team {
+    opacity: 0.6;
+}
 
-    .container {
-        width: 95%;
-        max-width: 1200px;
-        margin: auto;
-        /* padding: 0px auto; */
-        /* background-color: brown; */
-        overflow: scroll;
-    }
+h3 {
+    margin: 10px 0;
+}
 
-    form {
-        background: #fff;
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
+/* 🔥 3 Dot Button */
+.menu-btn {
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    background-color: #292929;
+    margin-top: 2px;
+}
 
-    label {
-        display: block;
-        margin-top: 10px;
-    }
+/* 🔥 Popup Background */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
 
-    input {
-        width: 100%;
-        padding: 8px;
-        margin-top: 5px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-    }
+/* 🔥 Popup Box */
+.popup-content {
+    background: white;
+    padding: 20px;
+    width: 300px;
+    border-radius: 10px;
+    position: relative;
+}
 
-    button {
-        margin-top: 10px;
-        padding: 8px 15px;
-        border: none;
-        border-radius: 5px;
-        background: blueviolet;
-        color: #fff;
-        cursor: pointer;
-    }
+/* ❌ Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
 
-    .scoreboards {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        margin-top: 40px;
-        /* overflow: scroll; */
-    }
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: auto;
+}
 
-    .team-board {
-        background: #fff;
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        margin-bottom: 40px;
-        overflow: scroll;
-    }
+form {
+    background: #fff;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
-    .team-board h3 {
-        margin: 0 0 10px 0;
-    }
+label {
+    display: block;
+    margin-top: 10px;
+}
 
-    .over-card {
-        background: #eee;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 8px;
-    }
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
 
-    .over-card div {
-        margin: 5px 0;
-    }
+button {
+    margin-top: 10px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background: blueviolet;
+    color: #fff;
+    cursor: pointer;
+}
 
-    .ball-buttons button {
-        margin: 3px;
-        padding: 5px 10px;
-        font-weight: bold;
-    }
+.scoreboards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 40px;
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-    }
+.team-board {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: 40px;
+    overflow: scroll;
+}
 
-    th,
-    td {
-        padding: 8px;
-        border: 1px solid #ccc;
-        text-align: center;
-    }
+.team-board::-webkit-scrollbar {
+    display: none;
+}
+
+.team-board h3 {
+    margin: 0 0 10px 0;
+}
+
+.over-card {
+    background: #eee;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+}
+
+.over-card div {
+    margin: 5px 0;
+}
+
+.ball-buttons button {
+    margin: 3px;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th,
+td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.summary-modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.summary-content {
+    background: #fff;
+    padding: 20px;
+    margin: 5% auto;
+    width: 350px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.summary-section {
+    margin-top: 15px;
+}
