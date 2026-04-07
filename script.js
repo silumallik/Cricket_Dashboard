@@ -8,7 +8,9 @@ let match = {
         B: { score: 0, wickets: 0, balls: 0, overs: [], players: {}, striker: '', nonStriker: '', bowler: '', bowlers: {}, }
     },
     currentTeam: 'A',
-    lastState: null
+    lastState: null,
+    startTime: null,
+    endTime: null
 };
 
 const teamForm = document.getElementById('teamForm');
@@ -112,6 +114,10 @@ playerForm.addEventListener('submit', (e) => {
     playerForm.style.display = 'none';
 
     updateTopNav();
+
+    match.startTime = new Date();
+
+    updateStartTimeUI();
 });
 
 function renderOverCard(teamKey) {
@@ -474,6 +480,7 @@ function checkMatchWinner() {
         // Team B wins
         winnerBoard = document.getElementById('teamBBoard');
         text = `Winner! Score: ${teamB.score} - ${teamA.score}`;
+        endMatch(teamB.name + " won the match!");
 
     } else {
         const oversCompleted = Math.floor(teamB.balls / 6) >= match.totalOvers;
@@ -482,7 +489,7 @@ function checkMatchWinner() {
             // Team A wins
             winnerBoard = document.getElementById('teamABoard');
             text = `Winner! Score: ${teamA.score} - ${teamB.score}`;
-
+            endMatch(teamB.name + " won the match!");
         }
     }
 
@@ -646,6 +653,33 @@ function closeSummary() {
     document.getElementById('matchSummaryModal').style.display = 'none';
 }
 
+function updateStartTimeUI() {
+    if (match.startTime) {
+        const time = match.startTime.toLocaleString('en-IN', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        document.getElementById('startTime').innerText = time;
+    }
+}
+
+function updateEndTimeUI() {
+    if (match.endTime) {
+        const time = match.endTime.toLocaleString('en-IN', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        document.getElementById('endTime').innerText = time;
+    }
+}
 
 function renderBowlerTable(teamKey) {
     let team = match.teams[teamKey];
@@ -1071,3 +1105,67 @@ document.getElementById('wCloseBtn').addEventListener('click', function () {
     modal.style.display = 'none';
     document.getElementById('wForm').reset();
 });
+
+function downloadImage() {
+    html2canvas(document.body).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'scoreboard.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+}
+
+async function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+
+    const canvas = await html2canvas(document.body);
+    const imgData = canvas.toDataURL('image/png');
+
+    const pdf = new jsPDF('p', 'mm', 'a4');
+
+    const imgWidth = 210;
+    const pageHeight = 295;
+    const imgHeight = canvas.height * imgWidth / canvas.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    // Multi-page support
+    while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+    }
+
+    pdf.save('match-summary.pdf');
+}
+
+function endMatch(message) {
+    alert(message);
+
+    showMatchSummary();
+
+    // ✅ Save end time
+    // match.endTime = new Date();
+
+    // updateEndTimeUI();
+
+    document.getElementById('downloadBtn').style.display = 'block';
+    document.getElementById('screanshotBtn').style.display = 'block';
+
+    setTimeout(() => {
+        document.getElementById('matchTargetNav').style.display = 'none';
+        var topnav = document.getElementById('topNav')
+        topnav.style.position = 'relative';
+        topnav.style.top = '0';
+    }, 5000);
+
+    match.endTime = new Date();
+
+    updateEndTimeUI();
+
+}
