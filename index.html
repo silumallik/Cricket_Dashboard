@@ -55,6 +55,9 @@
         Ye scoreboard practice/demo purpose ke liye hai. Real match rules thoda differ ho sakta hai.
       </p>
 
+      <!-- <button id="downloadBtn" onclick="downloadPDF()" style="display: none;">📄 Download PDF</button>
+      <button id="screanshotBtn" onclick="downloadImage()" style="display: none;">📸 Screenshot</button> -->
+
     </div>
   </div>
 
@@ -102,6 +105,20 @@
         </table>
       </div>
 
+      <!-- <h4>Bowler Stats</h4>
+      <table id="teamABowlers">
+        <thead>
+          <tr>
+            <th>Bowler</th>
+            <th>Overs</th>
+            <th>Runs</th>
+            <th>Wickets</th>
+            <th>Eco</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table> -->
+
     </div>
 
     <div class="team-board" id="teamBBoard">
@@ -124,6 +141,20 @@
         <tbody></tbody>
       </table>
     </div>
+
+    <!-- <h4>Bowler Stats</h4>
+    <table id="teamABowlers">
+      <thead>
+        <tr>
+          <th>Bowler</th>
+          <th>Overs</th>
+          <th>Runs</th>
+          <th>Wickets</th>
+          <th>Eco</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table> -->
 
   </div>
 
@@ -251,7 +282,21 @@ justify-content:center; align-items:center;">
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <div id="showcontent" style="display: flex; gap: 8px;width: 95%;margin: 10px auto;">
+    <div class="date" style="width: fit-content; line-height: 12px;">
+    <p>🟢 Start Time: <span id="startTime">-</span></p><br>
+    <p>🔴 End Time: <span id="endTime">-</span></p>
+    </div>
+
+    <button id="downloadBtn" onclick="downloadPDF()" style="display: none;">📄 Download PDF</button>
+    <button id="screanshotBtn" onclick="downloadImage()" style="display: none;">📸 Screenshot</button>
+
+  </div>
+
+  <script src="script.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 
 </html>
