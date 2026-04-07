@@ -7,14 +7,64 @@
   <title>Cricket Scoreboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+  <div id="topNav">
+    <div class="nav-left">
+      <h3>Silus Crkt <br>DashboarD</h3>
+    </div>
+
+    <div class="navlftcon">
+
+      <div class="nav-center">
+        <div id="teamATop" class="navitems">
+          <span style="font-size: 1.1rem;">Team A</span><br> <span id="teamATopScore">0/0</span>
+          | <span id="teamATopOvers">0.0</span>/<span id="teamATotalOvers">0</span>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <div id="teamBTop" class="navitems">
+          <span style="font-size: 1.1rem;">Team B</span> <br> <span id="teamBTopScore">0/0</span>
+          | <span id="teamBTopOvers">0.0</span>/<span id="teamBTotalOvers">0</span>
+        </div>
+      </div>
+
+      <button id="menuBtn" class="menu-btn">⋮</button>
+
+    </div>
+  </div>
+
+  <!-- 🔥 3Dot Popup -->
+  <div id="menuPopup" class="popup">
+    <div class="popup-content">
+
+      <!-- Close Button -->
+      <span id="closePopup" class="close-btn">❌</span>
+
+      <h2>📜 Rules</h2>
+      <ul>
+        <li>No Ball pe extra run + free hit (optional)</li>
+        <li>Wide ball count nahi hota</li>
+        <li>Max 10 wickets</li>
+        <li>Overs limit fixed</li>
+      </ul>
+
+      <h2>⚠ Disclaimer</h2>
+      <p>
+        Ye scoreboard practice/demo purpose ke liye hai. Real match rules thoda differ ho sakta hai.
+      </p>
+
+    </div>
+  </div>
+
   <div class="container">
 
     <!-- Team and Over Input Form -->
     <form id="teamForm">
       <h2>Enter Teams and Overs</h2>
-      <label>Team A Name:<input type="text" id="teamAName" placeholder="Batsman Team" required></label>
-      <label>Team B Name:<input type="text" id="teamBName" placeholder="Baller Team" required></label>
+      <label>Team A Name:<input type="text" id="teamAName" placeholder="Batsman Team " required></label>
+      <label>Team B Name:<input type="text" id="teamBName" placeholder="Bowler Team" required></label>
       <label>Overs:<input type="number" id="totalOvers" placeholder="Enter Over" min="1" required></label>
       <button type="submit">Start Match</button>
     </form>
@@ -174,7 +224,34 @@ justify-content:center; align-items:center;">
       <button type="button" id="wCloseBtn" style="background:red;">Close</button>
     </form>
   </div>
-<script src="script.js"></script>
+
+  <div id="matchSummaryModal" class="summary-modal">
+    <div class="summary-content">
+      <h2>🏆 Match Summary</h2>
+
+      <p id="matchResult"></p>
+
+      <div class="summary-section">
+        <h3>Scorecard</h3>
+        <p id="teamASummary"></p>
+        <p id="teamBSummary"></p>
+      </div>
+
+      <div class="summary-section">
+        <h3>Top Batsman</h3>
+        <p id="topBatsman"></p>
+      </div>
+
+      <div class="summary-section">
+        <h3>Match Stats</h3>
+        <p id="matchStats"></p>
+      </div>
+
+      <button onclick="closeSummary()">Close</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 
 </html>
