@@ -16,6 +16,29 @@ const playerForm = document.getElementById('playerForm');
 
 const bowlerForm = document.getElementById('bowlerForm');
 
+
+const menuBtn = document.getElementById('menuBtn');
+const popup = document.getElementById('menuPopup');
+const closeBtn = document.getElementById('closePopup');
+
+// Open popup
+menuBtn.addEventListener('click', () => {
+    popup.style.display = 'flex';
+});
+
+// Close popup
+closeBtn.addEventListener('click', () => {
+    popup.style.display = 'none';
+});
+
+// Optional: click outside to close
+popup.addEventListener('click', (e) => {
+    if (e.target === popup) {
+        popup.style.display = 'none';
+    }
+});
+
+
 bowlerForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const team = match.teams[match.currentTeam];
@@ -87,6 +110,8 @@ playerForm.addEventListener('submit', (e) => {
 
     // Hide the form until next over
     playerForm.style.display = 'none';
+
+    updateTopNav();
 });
 
 function renderOverCard(teamKey) {
@@ -240,6 +265,7 @@ function ball(teamKey, val, btn) {
 
     // renderBowlerTable(teamKey);
     undoUsed = false;
+    updateTopNav();
 }
 
 function undo(teamKey) {
@@ -269,6 +295,7 @@ function undo(teamKey) {
     // ✅ Ball history clean update
     refreshBallHistory('A');
     refreshBallHistory('B');
+    updateTopNav();
 }
 
 function ensureBowler(team) {
@@ -460,13 +487,19 @@ function checkMatchWinner() {
     }
 
     if (winnerBoard) {
+
+        updateTopNav();
+
         const div = document.createElement('div');
         div.classList.add('winner-text');
         div.style.color = 'darkgreen';
         div.style.fontSize = '18px';
         div.style.fontWeight = 'bold';
         div.style.margin = '5px 0';
-        div.innerText = text;
+        // div.innerText = text;
+
+        div.innerText = `🏆 ${text} 🎉`;
+
         winnerBoard.prepend(div); // Show above board content
 
         // ✅ Disable all over buttons for both teams
@@ -477,6 +510,11 @@ function checkMatchWinner() {
         });
 
         match.currentTeam = null; // stop the match
+
+        setTimeout(() => {
+            showMatchSummary();
+        }, 500);
+
         return true;
     }
 
@@ -498,6 +536,116 @@ function disableOverButtons(teamKey) {
     const buttons = lastOverCard.querySelectorAll('button');
     buttons.forEach(btn => btn.disabled = true);
 }
+
+function updateTopNav() {
+    let teamA = match.teams.A;
+    let teamB = match.teams.B;
+
+    // Team A
+    document.getElementById('teamATopScore').innerText =
+        `${teamA.score}/${teamA.wickets}`;
+
+    document.getElementById('teamATopOvers').innerText =
+        `${Math.floor(teamA.balls / 6)}.${teamA.balls % 6}`;
+
+    document.getElementById('teamATotalOvers').innerText =
+        match.totalOvers;
+
+    // Team B
+    document.getElementById('teamBTopScore').innerText =
+        `${teamB.score}/${teamB.wickets}`;
+
+    document.getElementById('teamBTopOvers').innerText =
+        `${Math.floor(teamB.balls / 6)}.${teamB.balls % 6}`;
+
+    document.getElementById('teamBTotalOvers').innerText =
+        match.totalOvers;
+
+    highlightBattingTeam();
+}
+
+function highlightBattingTeam() {
+    let teamABox = document.getElementById('teamATop');
+    let teamBBox = document.getElementById('teamBTop');
+
+    // reset
+    teamABox.classList.remove('active-batting', 'inactive-team');
+    teamBBox.classList.remove('active-batting', 'inactive-team');
+
+    if (match.currentTeam === 'A') {
+        teamABox.classList.add('active-batting');
+        teamBBox.classList.add('inactive-team');
+    } else {
+        teamBBox.classList.add('active-batting');
+        teamABox.classList.add('inactive-team');
+    }
+}
+
+function showMatchSummary() {
+    let teamA = match.teams.A;
+    let teamB = match.teams.B;
+
+    // Score
+    let teamAScore = `${teamA.score}/${teamA.wickets} (${Math.floor(teamA.balls / 6)}.${teamA.balls % 6})`;
+    let teamBScore = `${teamB.score}/${teamB.wickets} (${Math.floor(teamB.balls / 6)}.${teamB.balls % 6})`;
+
+    document.getElementById('teamASummary').innerText = `Team A - ${teamAScore}`;
+    document.getElementById('teamBSummary').innerText = `Team B - ${teamBScore}`;
+
+    // 🏆 Result
+    let result = '';
+    if (teamA.score > teamB.score) {
+        result = `Team A : ${teamA.name} won by ${teamA.score - teamB.score} runs`;
+    } else if (teamB.score > teamA.score) {
+        // result = `Team B won by ${10 - teamB.wickets} wickets`;
+        result = `Team B : ${teamB.name} won by ${teamB.score - teamA.score} runs`;
+    } else {
+        result = 'Match Draw';
+    }
+
+    document.getElementById('matchResult').innerText = result;
+
+    // 🔥 Top Batsman
+    let topPlayer = '';
+    let maxRuns = 0;
+
+    ['A', 'B'].forEach(t => {
+        let players = match.teams[t].players;
+        for (let name in players) {
+            if (players[name].runs > maxRuns) {
+                maxRuns = players[name].runs;
+                let p = players[name];
+                let sr = p.balls > 0 ? ((p.runs / p.balls) * 100).toFixed(2) : 0;
+                topPlayer = `${name} - ${p.runs} (${p.balls}) | SR: ${sr}`;
+            }
+        }
+    });
+
+    document.getElementById('topBatsman').innerText = topPlayer || 'N/A';
+
+    // 📊 Stats
+    let total4s = 0;
+    let total6s = 0;
+
+    ['A', 'B'].forEach(t => {
+        let players = match.teams[t].players;
+        for (let p in players) {
+            total4s += players[p].fours || 0;
+            total6s += players[p].sixes || 0;
+        }
+    });
+
+    document.getElementById('matchStats').innerText =
+        `4s: ${total4s} | 6s: ${total6s}`;
+
+    // show modal
+    document.getElementById('matchSummaryModal').style.display = 'block';
+}
+
+function closeSummary() {
+    document.getElementById('matchSummaryModal').style.display = 'none';
+}
+
 
 function renderBowlerTable(teamKey) {
     let team = match.teams[teamKey];
@@ -538,6 +686,7 @@ function refreshBallHistory(teamKey) {
     lastOverCard.querySelector('.ball-history').innerText =
         'Balls: ' + currentOver.balls.join(' ');
 }
+
 
 document.getElementById('roForm').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -586,6 +735,8 @@ document.getElementById('roForm').addEventListener('submit', function (e) {
 
     // Add wicket
     team.wickets++;
+
+    updateTopNav();
 
     // 🧾 Ball history format
     let historyText = runs > 0 ? `${runs}RO` : `RO`;
@@ -780,6 +931,8 @@ document.getElementById('nbForm').addEventListener('submit', function (e) {
 
     checkMatchWinner();
 
+    updateTopNav();
+
     modal.style.display = 'none';
     this.reset();
     // renderBowlerTable(teamKey);
@@ -823,6 +976,8 @@ document.getElementById('wForm').addEventListener('submit', function (e) {
 
     // ✅ Wicket
     team.wickets++;
+
+    updateTopNav();
 
     // ✅ Bowler gets wicket
     if (team.bowlers && team.bowlers[team.bowler]) {
