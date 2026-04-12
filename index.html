@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Scoreboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="topNav">
+    <div class="nav-left">
+      <h3>Silus Crkt <br>DashboarD</h3>
+    </div>
+
+    <div class="navlftcon">
+
+      <div class="nav-center">
+        <div id="teamATop" class="navitems">
+          <span style="font-size: 1.1rem;">Team A</span><br> <span id="teamATopScore">0/0</span>
+          | <span id="teamATopOvers">0.0</span>/<span id="teamATotalOvers">0</span>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <div id="teamBTop" class="navitems">
+          <span style="font-size: 1.1rem;">Team B</span> <br> <span id="teamBTopScore">0/0</span>
+          | <span id="teamBTopOvers">0.0</span>/<span id="teamBTotalOvers">0</span>
+        </div>
+      </div>
+
+      <button id="menuBtn" class="menu-btn">⋮</button>
+
+    </div>
+  </div>
+
+  <!-- 🔥 3Dot Popup -->
+  <div id="menuPopup" class="popup">
+    <div class="popup-content">
+
+      <!-- Close Button -->
+      <span id="closePopup" class="close-btn">❌</span>
+
+      <h2>📜 Rules</h2>
+      <ul>
+        <li>No Ball pe extra run + free hit (optional)</li>
+        <li>Wide ball count nahi hota</li>
+        <li>Max 10 wickets</li>
+        <li>Overs limit fixed</li>
+      </ul>
+
+      <h2>⚠ Disclaimer</h2>
+      <p>
+        Ye scoreboard practice/demo purpose ke liye hai. Real match rules thoda differ ho sakta hai.
+      </p>
+
+      <!-- <button id="downloadBtn" onclick="downloadPDF()" style="display: none;">📄 Download PDF</button>
+      <button id="screanshotBtn" onclick="downloadImage()" style="display: none;">📸 Screenshot</button> -->
+
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- Team and Over Input Form -->
+    <form id="teamForm">
+      <h2>Enter Teams and Overs</h2>
+      <label>Team A Name:<input type="text" id="teamAName" placeholder="Batsman Team " required></label>
+      <label>Team B Name:<input type="text" id="teamBName" placeholder="Bowler Team" required></label>
+      <label>Overs:<input type="number" id="totalOvers" placeholder="Enter Over" min="1" required></label>
+      <button type="submit">Start Match</button>
+    </form>
+
+    <!-- Bowler/Striker Form -->
+    <form id="playerForm" style="display:none;">
+      <h2>Enter Players</h2>
+      <label>Bowler Name:<input type="text" id="bowler" required></label>
+      <label>Striker Name:<input type="text" id="striker" required></label>
+      <label>Non-Striker Name:<input type="text" id="nonStriker" required></label>
+      <button type="submit">Start Innings</button>
+    </form>
+
+    <!-- Scoreboards for Team A & Team B -->
+    <div class="scoreboards">
+
+      <div class="team-board" id="teamABoard">
+        <h3>Team A: <span id="teamAHeader"></span></h3>
+        <p>Score: <span id="teamAScore">0/0</span> | Overs: <span id="teamAOvers">0.0</span></p>
+        <div id="teamAOverCards"></div>
+        <table id="teamAPlayers">
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Runs</th>
+              <th>Balls</th>
+              <th>1s</th>
+              <th>2s</th>
+              <th>4s</th>
+              <th>6s</th>
+              <th>SR</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <h4>Bowler Stats</h4>
+        <table id="teamABowlers" class="bowlertable">
+          <thead>
+            <tr>
+              <th>Bowler</th>
+              <th>Balls</th>
+              <th>Dots</th>
+              <th>4s</th>
+              <th>6s</th>
+              <th>Ws</th>
+              <th>Runs</th>
+              <th>WD</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+      </div>
+
+    <div class="team-board" id="teamBBoard">
+      <h3>Team B: <span id="teamBHeader"></span></h3>
+      <p>Score: <span id="teamBScore">0/0</span> | Overs: <span id="teamBOvers">0.0</span></p>
+      <div id="teamBOverCards"></div>
+      <table id="teamBPlayers">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Runs</th>
+            <th>Balls</th>
+            <th>1s</th>
+            <th>2s</th>
+            <th>4s</th>
+            <th>6s</th>
+            <th>SR</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+        <h4>Bowler Stats</h4>
+        <table id="teamBBowlers" class="bowlertable">
+          <thead>
+            <tr>
+              <th>Bowler</th>
+              <th>Balls</th>
+              <th>Dots</th>
+              <th>4s</th>
+              <th>6s</th>
+              <th>Ws</th>
+              <th>Runs</th>
+              <th>WD</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+      </div>
+  </div>
+
+  <!-- Bottom Nav for Target and Chase info -->
+  <div id="matchTargetNav"
+    style="position:fixed; bottom:0; left:0; width:100%; background:#222; color:white; padding:10px; text-align:center; font-size:16px; display:none;">
+    <span id="targetScore"></span> | <span id="chaseInfo"></span>
+  </div>
+
+  </div>
+
+  <!-- Bowler popup -->
+  <div id="bowlerPopup" style="display:none; position:fixed; top:0; left:0; 
+  width:100%; height:100%; background:rgba(0,0,0,0.5); 
+  justify-content:center; align-items:center;">
+    <form id="bowlerForm" style="background:#fff; padding:20px; border-radius:10px;">
+      <h3>Enter Bowler Name</h3>
+      <input type="text" id="nextBowler" placeholder="Bowler Name" required>
+      <div style="display:flex; gap:10px; margin-top:10px; justify-content:flex-end;">
+        <button type="submit">Start Over</button>
+        <button type="button" id="bowlerCloseBtn" style="background:#ccc;">Close</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Run Out Modal -->
+  <div id="roModal" style="display:none; position:fixed; top:0; left:0; 
+width:100%; height:100%; background:rgba(0,0,0,0.5); 
+justify-content:center; align-items:center;">
+
+    <form id="roForm" style="background:#fff; padding:20px auto; border-radius:10px;">
+      <h3>Run Out</h3>
+
+      <label>New Batsman Name:
+        <input type="text" id="roNewBatsman" required>
+      </label>
+
+      <label>Runs Completed:
+        <input type="number" id="roRuns" min="0" max="3" value="0">
+      </label>
+
+      <label>Who is Out:</label>
+      <select id="roOutPlayer">
+        <option value="striker">Striker</option>
+        <option value="nonStriker">Non-Striker</option>
+      </select>
+
+      <button type="submit">Submit</button>
+
+      <!-- ✅ CLOSE BUTTON INSIDE POPUP -->
+      <button type="button" id="roCloseBtn" style="background:red; margin-left:10px;">
+        Close
+      </button>
+
+    </form>
+  </div>
+
+  <!-- NB Modal -->
+  <div id="nbModal" style="display:none; position:fixed; top:0; left:0; 
+width:100%; height:100%; background:rgba(0,0,0,0.5); 
+justify-content:center; align-items:center;">
+
+    <form id="nbForm" style="background:#fff; padding:20px auto; border-radius:10px;">
+      <h3>No Ball</h3>
+
+      <label>Runs Taken:
+        <input type="number" id="nbRuns" min="0" value="0">
+      </label>
+
+      <label>Player Out?</label>
+      <select id="nbOutType">
+        <option value="no">No Wicket</option>
+        <option value="striker">Striker Out</option>
+        <option value="nonStriker">Non-Striker Out</option>
+      </select>
+
+      <label>New Batsman (if out):
+        <input type="text" id="nbNewBatsman">
+      </label>
+
+      <button type="submit">Submit</button>
+      <button type="button" id="nbCloseBtn" style="background:red;">Close</button>
+    </form>
+  </div>
+
+  <!-- Wicket Modal -->
+  <div id="wModal" style="display:none; position:fixed; top:0; left:0; 
+width:100%; height:100%; background:rgba(0,0,0,0.5); 
+justify-content:center; align-items:center;">
+
+    <form id="wForm" style="background:#fff; padding:20px auto; border-radius:10px;">
+      <h3>Wicket</h3>
+
+      <label>New Batsman Name:
+        <input type="text" id="wNewBatsman" required>
+      </label>
+
+      <button type="submit">Submit</button>
+      <button type="button" id="wCloseBtn" style="background:red;">Close</button>
+    </form>
+  </div>
+
+  <div id="matchSummaryModal" class="summary-modal">
+    <div class="summary-content">
+      <h2>🏆 Match Summary</h2>
+
+      <p id="matchResult"></p>
+
+      <div class="summary-section">
+        <h3>Scorecard</h3>
+        <p id="teamASummary"></p>
+        <p id="teamBSummary"></p>
+      </div>
+
+      <div class="summary-section">
+        <h3>Top Batsman</h3>
+        <p id="topBatsman"></p>
+      </div>
+
+      <div class="summary-section">
+        <h3>Match Stats</h3>
+        <p id="matchStats"></p>
+      </div>
+
+      <button onclick="closeSummary()">Close</button>
+    </div>
+  </div>
+
+  <div id="showcontent" style="display: flex; gap: 8px;width: 95%;margin: 10px auto;">
+    <div class="date" style="width: fit-content; line-height: 12px;">
+    <p>🟢 Start Time: <span id="startTime">-</span></p><br>
+    <p>🔴 End Time: <span id="endTime">-</span></p>
+    </div>
+
+    <button id="downloadBtn" onclick="downloadPDF()" style="display: none;">📄 Download PDF</button>
+    <button id="screanshotBtn" onclick="downloadImage()" style="display: none;">📸 Screenshot</button>
+
+  </div>
+
+  <script src="script.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+
+</html>
