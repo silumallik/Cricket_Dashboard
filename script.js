@@ -150,6 +150,9 @@ playerForm.addEventListener('submit', (e) => {
     // Hide the form until next over
     playerForm.style.display = 'none';
 
+    // Auto scroll to Team B scoreboard after form submission
+    document.getElementById('teamBBoard').scrollIntoView({ behavior: 'smooth' })
+
     updateTopNav();
 
     match.startTime = new Date();
@@ -548,6 +551,9 @@ function checkInningsEnd(teamKey) {
             playerForm.querySelector('#bowler').value = '';
             playerForm.querySelector('#striker').value = '';
             playerForm.querySelector('#nonStriker').value = '';
+
+            // Auto scroll to player form
+            playerForm.scrollIntoView({ behavior: 'smooth' });
 
         } else {
             alert('Match Complete!');
