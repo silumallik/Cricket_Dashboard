@@ -270,6 +270,12 @@ td {
     font-size: 14px;
 }
 
+td{
+    white-space: normal;        
+    word-break: break-word;    
+    overflow-wrap: break-word;  
+}
+
 th {
     background: #020617;
 }
@@ -315,6 +321,10 @@ th {
 }
 
 .bowlertable::-webkit-scrollbar{
+    display: none;
+}
+
+#teamAPlayers::-webkit-scrollbar, #teamBPlayers::-webkit-scrollbar {
     display: none;
 }
 
