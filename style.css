@@ -1,4 +1,4 @@
-﻿/* ===== RESET ===== */
+/* ===== RESET ===== */
 * {
     margin: 0;
     padding: 0;
@@ -128,7 +128,7 @@ label {
 input {
     width: 100%;
     padding: 10px;
-    margin-top: 6px;
+    margin: 6px 0px 10px 0px;
     border-radius: 8px;
     border: 1px solid var(--border);
     background: #020617;
@@ -164,12 +164,12 @@ input {
     flex-wrap: wrap;
     gap: 5px 11px;
     margin: 10px 0px;
-    border: 1px solid var(--border);
+    /* border: 1px solid var(--border); */
 }
 
 .ball-buttons {
     width: 100%;
-    min-height: 15vh;
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -182,7 +182,7 @@ input {
 }
 
 .ball-buttons button {
-    padding: 12px 25px;
+    padding: 15px 25px;
 }
 
 /* BALL STYLE */
@@ -197,7 +197,7 @@ input {
     font-size: 13px;
     font-weight: bold;
     color: white;
-    padding: 20px 28px;
+    /* padding: 20px 28px; */
     transition: var(--transition);
 }
 
@@ -241,6 +241,12 @@ input {
 
 .ball-NB {
     background: #ec4899;
+    font-size: 13.5px;
+    white-space: normal;        /* text ko wrap hone dega */
+    word-break: break-word;     /* long words ko tod dega */
+    overflow-wrap: break-word;  /* modern wrap support */
+    line-height: 10px;
+    padding-left: 5px;
 }
 
 /* ===== TABLE ===== */
@@ -279,6 +285,10 @@ th {
     width: 90%;
     max-width: 350px;
     border-radius: var(--radius);
+}
+
+.popups{
+    background-color: #0c1e1b;
 }
 
 /* ===== SUMMARY MODAL ===== */
@@ -333,7 +343,7 @@ th {
 
     .ball-buttons {
         width: 100%;
-        min-height: 15vh;
+        min-height: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -347,7 +357,7 @@ th {
     }
 
     .ball-buttons button {
-        padding: 10px 18px; /* ✅ mobile ke liye thoda compact */
+        padding: 15px 25px; /* ✅ mobile ke liye thoda compact */
         flex: 0 0 auto; /* ✅ shrink/expand control */
     }
     #showcontent{
@@ -360,17 +370,18 @@ th {
 @media (min-width: 769px) and (max-width: 1023px) {
     .ball-buttons {
         width: 100%;
-        min-height: 10vh;
+        min-height: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
         /* background-color: #00BFA6; */
 
-        gap:0px 22px; /* simplify */
+        gap:20px 25px; /* simplify */
     }
     .ball-buttons {
         justify-content: start;
         flex-wrap: wrap;
+        padding: 15px 25px;
     }
 }
 
@@ -386,7 +397,8 @@ th {
         flex: 1;
     }
 
-    .ball-buttons {
-        flex-wrap: nowrap; /* desktop me single line */
-    }
+    /* .ball-buttons {
+        flex-wrap: wrap;
+        padding: 5px 10px;
+    } */
 }
