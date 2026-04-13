@@ -475,12 +475,12 @@ function renderPlayerTable(teamKey) {
         // Determine styles
         let styles = [];
         if (p.isOut) {
-            styles.push('background-color: red; color: white;');
+            styles.push('background-color: red; color: black; font-weight: bold;');
         } else if (p.runs === maxRuns && maxRuns > 0) {
-            styles.push('background-color: gold; font-weight: bold; color: white;');
+            styles.push('background-color: green; font-weight: bold; color: black;');
         }
         if (player === team.striker) {
-            styles.push('font-weight: bold; background-color: pink;');
+            styles.push('font-weight: bold; font-style: italic; color: white;');
         }
         let styleStr = styles.join(' ');
 
