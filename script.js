@@ -480,7 +480,7 @@ function renderPlayerTable(teamKey) {
             styles.push('background-color: green; font-weight: bold; color: black;');
         }
         if (player === team.striker) {
-            styles.push('font-weight: bold; font-style: italic; color: white;');
+            styles.push('font-weight: bold;font-style: italic; color: white;');
         }
         let styleStr = styles.join(' ');
 
@@ -498,34 +498,6 @@ function renderPlayerTable(teamKey) {
         `;
     }
 }
-
-//     function renderPlayerTable(teamKey) {
-//       let tbody = document.querySelector(`#team${teamKey}Players tbody`);
-//       tbody.innerHTML = '';
-//       let team = match.teams[teamKey];
-
-//       for (let player in team.players) {
-//         let p = team.players[player];
-//         let sr = p.balls > 0 ? ((p.runs / p.balls) * 100).toFixed(2) : 0;
-
-//         let isStriker = player === team.striker
-//           ? 'background: #d1ffd1; font-weight: bold;'
-//           : '';
-
-//         tbody.innerHTML += `
-// <tr style="${isStriker}">
-//   <td>${player}</td>
-//   <td>${p.runs}</td>
-//   <td>${p.balls}</td>
-//   <td>${p.ones}</td>
-//   <td>${p.twos}</td>
-//   <td>${p.fours}</td>
-//   <td>${p.sixes}</td>
-//   <td>${sr}</td>
-// </tr>
-// `;
-//       }
-//     }
 
 function updateOverCardDisplay(teamKey) {
     let team = match.teams[teamKey];
