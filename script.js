@@ -639,7 +639,12 @@ function disableOverButtons(teamKey) {
     const lastOverCard = overCardsDiv.lastElementChild;
     if (!lastOverCard) return;
     const buttons = lastOverCard.querySelectorAll('button');
-    buttons.forEach(btn => btn.disabled = true);
+    // buttons.forEach(btn => btn.disabled = true);
+    buttons.forEach(btn => {
+        btn.disabled = true
+        btn.style.opacity = '0.6'
+        btn.style.cursor = 'pointer';
+    });
 }
 
 function updateTopNav() {
