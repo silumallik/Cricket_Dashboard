@@ -205,6 +205,11 @@ input {
     transform: scale(1.1);
 }
 
+.latest-ball {
+    border: 3px solid #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
+}
+
 /* COLORS */
 .ball-0 {
     background: #64748b;
@@ -247,6 +252,7 @@ input {
     overflow-wrap: break-word;  /* modern wrap support */
     line-height: 10px;
     padding-left: 5px;
+    text-align: center;
 }
 
 /* ===== TABLE ===== */
