@@ -151,7 +151,7 @@ playerForm.addEventListener('submit', (e) => {
     playerForm.style.display = 'none';
 
     // Auto scroll to Team B scoreboard after form submission
-    document.getElementById('teamBBoard').scrollIntoView({ behavior: 'smooth' })
+    document.getElementById('teamBBoard').scrollIntoView({ behavior: 'smooth' });
 
     updateTopNav();
 
@@ -362,7 +362,6 @@ function enableOverButtons(teamKey) {
     lastOverCard.querySelectorAll('button').forEach(btn => btn.disabled = false);
 }
 
-
 function updateBowlerStats(team, val) {
     if (!team.bowler || !team.bowlers[team.bowler]) return;
 
@@ -428,7 +427,7 @@ function updateBallHistory(teamKey) {
 
     // Create HTML for each ball with colored badges
     let html = '<span style="font-weight: bold;">Balls:</span>';
-    
+
     currentOver.balls.forEach((ball, index) => {
         let className = 'ball-0';
         let displayBall = String(ball);
@@ -441,7 +440,7 @@ function updateBallHistory(teamKey) {
         else if (ballStr === '4') className = 'ball-4';
         else if (ballStr === '6') className = 'ball-6';
         else if (ballStr === 'W') className = 'ball-W';
-        else if (ballStr === 'WD') className = 'ball-WD'; 
+        else if (ballStr === 'WD') className = 'ball-WD';
         else if (ballStr === 'NB') className = 'ball-NB';
         else if (ballStr.startsWith('RO')) className = 'ball-RO';
         else if (ballStr.startsWith('1RO')) { className = 'ball-RO'; displayBall = '1RO'; }
@@ -527,7 +526,7 @@ function checkInningsEnd(teamKey) {
 
     if (oversCompleted || allOut) {
         if (match.currentTeam === 'A') {
-            alert(`Team A innings complete! Team B will start now.`);
+            alert(`Team A is complete his over! now Team B will start.`);
             match.currentTeam = 'B';
 
 
@@ -589,7 +588,7 @@ function checkMatchWinner() {
             // Team A wins
             winnerBoard = document.getElementById('teamABoard');
             text = `Winner! Score: ${teamA.score} - ${teamB.score}`;
-            endMatch(teamB.name + " won the match!");
+            endMatch(teamA.name + " won the match!");
         }
     }
 
@@ -645,12 +644,8 @@ function disableOverButtons(teamKey) {
     const lastOverCard = overCardsDiv.lastElementChild;
     if (!lastOverCard) return;
     const buttons = lastOverCard.querySelectorAll('button');
-    // buttons.forEach(btn => btn.disabled = true);
-    buttons.forEach(btn => {
-        btn.disabled = true
-        btn.style.opacity = '0.6'
-        btn.style.cursor = 'pointer';
-    });
+    buttons.forEach(btn => btn.disabled = true);
+    buttons.forEach(btn => btn.classList.add('disabled-btn'));
 }
 
 function updateTopNav() {
@@ -760,7 +755,161 @@ function showMatchSummary() {
 
 function closeSummary() {
     document.getElementById('matchSummaryModal').style.display = 'none';
+    showPlayerProgressSummary();
 }
+
+function showPlayerProgressSummary() {
+    let teamA = match.teams.A;
+    let teamB = match.teams.B;
+
+    // Determine winner
+    let winner = '';
+    if (teamA.score > teamB.score) {
+        winner = teamA.name;
+    } else if (teamB.score > teamA.score) {
+        winner = teamB.name;
+    } else {
+        winner = 'Draw';
+    }
+
+    document.getElementById('winnerName').innerText = winner;
+
+    const modal = document.getElementById('playerProgressModal');
+
+    modal.querySelector('#teamAHeader').innerText = match.teams.A.name;
+    modal.querySelector('#teamBHeader').innerText = match.teams.B.name;
+
+    // Set team names in headers
+    // document.getElementsByClassName('teamAHeader').innerText = teamA.name.toUpperCase();
+    // document.getElementsByClassName('teamBHeader').innerText = teamB.name.toUpperCase();
+
+    // Populate Team A Batsmen
+    let teamABatsmenBody = document.getElementById('teamABatsmenBody');
+    teamABatsmenBody.innerHTML = '';
+    for (let playerName in teamA.players) {
+        let player = teamA.players[playerName];
+        let sr = player.balls > 0 ? ((player.runs / player.balls) * 100).toFixed(2) : 0;
+        let fours = player.fours || 0;
+        let sixes = player.sixes || 0;
+        teamABatsmenBody.innerHTML += `
+            <tr>
+                <td style="padding: 8px; border: 1px solid #475569;">${playerName}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${player.runs}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${player.balls}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${fours}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${sixes}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${sr}</td>
+            </tr>
+        `;
+    }
+
+    // Populate Team B Batsmen
+    let teamBBatsmenBody = document.getElementById('teamBBatsmenBody');
+    teamBBatsmenBody.innerHTML = '';
+    for (let playerName in teamB.players) {
+        let player = teamB.players[playerName];
+        let sr = player.balls > 0 ? ((player.runs / player.balls) * 100).toFixed(2) : 0;
+        let fours = player.fours || 0;
+        let sixes = player.sixes || 0;
+        teamBBatsmenBody.innerHTML += `
+            <tr>
+                <td style="padding: 8px; border: 1px solid #475569;">${playerName}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${player.runs}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${player.balls}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${fours}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${sixes}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${sr}</td>
+            </tr>
+        `;
+    }
+
+    // Populate Team A Bowlers
+    let teamABowlersBody = document.getElementById('teamABowlersBody');
+    teamABowlersBody.innerHTML = '';
+    for (let bowlerName in teamA.bowlers) {
+        let bowler = teamA.bowlers[bowlerName];
+        let fours = bowler.fours || 0;
+        let sixes = bowler.sixes || 0;
+        teamABowlersBody.innerHTML += `
+            <tr>
+                <td style="padding: 8px; border: 1px solid #475569;">${bowlerName}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${bowler.runs}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${bowler.balls}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${fours}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${sixes}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${bowler.wickets}</td>
+            </tr>
+        `;
+    }
+
+    // Populate Team B Bowlers
+    let teamBBowlersBody = document.getElementById('teamBBowlersBody');
+    teamBBowlersBody.innerHTML = '';
+    for (let bowlerName in teamB.bowlers) {
+        let bowler = teamB.bowlers[bowlerName];
+        let fours = bowler.fours || 0;
+        let sixes = bowler.sixes || 0;
+        teamBBowlersBody.innerHTML += `
+            <tr>
+                <td style="padding: 8px; border: 1px solid #475569;">${bowlerName}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${bowler.runs}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${bowler.balls}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${fours}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${sixes}</td>
+                <td style="padding: 8px; border: 1px solid #475569; text-align: center;">${bowler.wickets}</td>
+            </tr>
+        `;
+    }
+
+    // Show the modal
+    document.getElementById('playerProgressModal').style.display = 'flex';
+    document.getElementById('playerProgressModal').style.justifyContent = 'center';
+    document.getElementById('playerProgressModal').style.alignItems = 'center';
+}
+
+function closePlayerProgress() {
+    document.getElementById('playerProgressModal').style.display = 'none';
+}
+
+function playerProgressScreenshot() {
+    const element = document.querySelector('.player-progress-content');
+    if (!element) return;
+
+    const clone = element.cloneNode(true);
+    clone.style.maxHeight = 'none';
+    clone.style.height = 'auto';
+    clone.style.overflow = 'visible';
+    clone.style.position = 'relative';
+    clone.style.visibility = 'visible';
+    clone.style.display = 'block';
+
+    const wrapper = document.createElement('div');
+    wrapper.style.position = 'absolute';
+    wrapper.style.top = '-9999px';
+    wrapper.style.left = '-9999px';
+    wrapper.style.background = '#0f172a';
+    wrapper.style.padding = '20px';
+    wrapper.appendChild(clone);
+    document.body.appendChild(wrapper);
+
+    html2canvas(clone, {
+        backgroundColor: '#0f172a',
+        scale: 2,
+        scrollY: -window.scrollY,
+        useCORS: true
+    }).then(canvas => {
+        document.body.removeChild(wrapper);
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'player-progress-summary.png';
+        link.click();
+    }).catch(error => {
+        document.body.removeChild(wrapper);
+        console.error('Screenshot failed:', error);
+        alert('Screenshot failed. Please try again.');
+    });
+}
+
 
 function updateStartTimeUI() {
     if (match.startTime) {
@@ -826,7 +975,6 @@ function refreshBallHistory(teamKey) {
 
     updateBallHistory(teamKey);
 }
-
 
 document.getElementById('roForm').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -1293,7 +1441,7 @@ async function downloadPDF() {
 }
 
 function endMatch(message) {
-    alert(message);
+    // alert(message);
 
     showMatchSummary();
 
