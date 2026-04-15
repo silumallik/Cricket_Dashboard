@@ -271,9 +271,9 @@ td {
 }
 
 td{
-    white-space: normal;        
-    word-break: break-word;    
-    overflow-wrap: break-word;  
+    white-space: normal;        /* text ko wrap hone dega */
+    word-break: break-word;     /* long words ko tod dega */
+    overflow-wrap: break-word;  /* modern wrap support */
 }
 
 th {
@@ -309,6 +309,8 @@ th {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    overflow-y: auto;
 }
 
 .summary-content {
@@ -320,8 +322,119 @@ th {
     border-radius: var(--radius);
 }
 
+/* Player Progress Modal */
+.player-progress-content {
+    max-width: 1000px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.player-progress-content h2 {
+    margin: 20px 0;
+    font-size: 1.5rem;
+    text-align: center;
+    width: 100%;
+}
+
+.player-progress-teams-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.team-section {
+    border: 1px solid #334155;
+    padding: 20px;
+    border-radius: 8px;
+    background: rgba(51, 65, 85, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-section h2 {
+    margin-top: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.team-tables {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+}
+
+.table-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-progress-content table {
+    width: 100%;
+    font-size: 0.9rem;
+    border-collapse: collapse;
+    margin: 0 auto;
+    display: table;
+}
+
+.player-progress-content thead tr {
+    background: #334155;
+}
+
+.player-progress-content th,
+.player-progress-content td {
+    padding: 8px;
+    border: 1px solid #475569;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.player-progress-content h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.player-progress-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.close-btn-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
 .bowlertable::-webkit-scrollbar{
     display: none;
+}
+
+.disabled-btn{
+    cursor: not-allowed !important;
+    opacity: 0.6 !important;
 }
 
 #teamAPlayers::-webkit-scrollbar, #teamBPlayers::-webkit-scrollbar {
@@ -376,6 +489,116 @@ th {
         padding: 15px 25px; /* ✅ mobile ke liye thoda compact */
         flex: 0 0 auto; /* ✅ shrink/expand control */
     }
+    
+    /* Mobile Player Progress Modal */
+    .player-progress-content {
+        max-width: 95vw;
+        padding: 15px;
+        max-height: 95vh;
+        margin: 5vh auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .player-progress-content h2 {
+        font-size: 1.2rem;
+        margin: 15px 0;
+        width: 100%;
+    }
+
+    .player-progress-teams-container {
+        gap: 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .team-section {
+        padding: 15px;
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .team-section h2 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .team-tables {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .table-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .player-progress-content table {
+        font-size: 0.75rem;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        display: table;
+    }
+
+    .player-progress-content th,
+    .player-progress-content td {
+        padding: 6px;
+        word-break: break-word;
+    }
+
+    .player-progress-content h3 {
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .close-btn-modal {
+        font-size: 20px;
+        top: 8px;
+        right: 8px;
+    }
+
+    .player-progress-buttons {
+        gap: 8px;
+        margin-top: 15px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .player-progress-buttons button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        flex: 1;
+        min-width: 100px;
+    }
+
+    #winnerSection {
+        font-size: 0.95rem !important;
+        padding: 12px !important;
+        width: 100%;
+    }
+
+    #winnerSection h3 {
+        font-size: 1.2rem !important;
+    }
+
     #showcontent{
         display: flex;
         flex-direction: column;
@@ -399,6 +622,64 @@ th {
         flex-wrap: wrap;
         padding: 15px 25px;
     }
+
+    /* Tablet Player Progress Modal */
+    .player-progress-content {
+        max-width: 90vw;
+        padding: 18px;
+        margin: 5vh auto;
+    }
+
+    .player-progress-content h2 {
+        font-size: 1.3rem;
+        margin: 18px 0;
+    }
+
+    .player-progress-teams-container {
+        gap: 25px;
+        width: 100%;
+    }
+
+    .team-section {
+        padding: 18px;
+        width: 100%;
+    }
+
+    .team-section h2 {
+        font-size: 1.15rem;
+        margin-bottom: 15px;
+    }
+
+    .team-tables {
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        width: 100%;
+    }
+
+    .player-progress-content h3 {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+
+    .player-progress-content table {
+        font-size: 0.85rem;
+    }
+
+    .player-progress-content th,
+    .player-progress-content td {
+        padding: 7px;
+    }
+
+    .player-progress-buttons {
+        gap: 12px;
+        margin-top: 18px;
+        width: 100%;
+    }
+
+    .player-progress-buttons button {
+        padding: 10px 18px;
+        font-size: 0.95rem;
+    }
 }
 
 /* Desktop */
@@ -411,6 +692,64 @@ th {
 
     .team-board {
         flex: 1;
+    }
+
+    /* Desktop Player Progress Modal */
+    .player-progress-content {
+        max-width: 1000px;
+        padding: 25px;
+        margin: 5vh auto;
+    }
+
+    .player-progress-content h2 {
+        font-size: 1.6rem;
+        margin: 25px 0;
+    }
+
+    .player-progress-teams-container {
+        gap: 30px;
+        width: 100%;
+    }
+
+    .team-section {
+        padding: 25px;
+        width: 100%;
+    }
+
+    .team-section h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+    }
+
+    .team-tables {
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        width: 100%;
+    }
+
+    .player-progress-content h3 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+
+    .player-progress-content table {
+        font-size: 0.95rem;
+    }
+
+    .player-progress-content th,
+    .player-progress-content td {
+        padding: 10px;
+    }
+
+    .player-progress-buttons {
+        gap: 15px;
+        margin-top: 25px;
+        width: 100%;
+    }
+
+    .player-progress-buttons button {
+        padding: 12px 25px;
+        font-size: 1rem;
     }
 
     /* .ball-buttons {
