@@ -287,7 +287,113 @@ justify-content:center; align-items:center;">
     </div>
   </div>
 
-  <div id="showcontent" style="display: flex; gap: 8px;width: 95%;margin: 10px auto;">
+  <!-- Player Progress Summary Modal -->
+  <div id="playerProgressModal" class="summary-modal">
+    <div class="summary-content player-progress-content">
+      <span onclick="closePlayerProgress()" class="close-btn-modal">❌</span>
+      
+      <h2 style="text-align: center; margin: 20px 0;">📊 Player Progress Summary</h2>
+      
+      <div id="winnerSection" style="text-align: center; background: #1e293b; padding: 15px;margin-bottom: 20px;">
+        <h3 style="color: #00BFA6; font-size: 1.5rem;">🏆 <span id="winnerName"></span> Won!</h3>
+      </div>
+
+      <div class="player-progress-teams-container">
+        <!-- Team A Section -->
+        <div class="team-section">
+          <h2 id="teamAHeader" class="teamAHeader" style="text-align: center; color: #6C63FF; font-size: 1.3rem; margin-bottom: 15px; text-transform: uppercase;">Team A</h2>
+          
+          <div class="team-tables">
+            <!-- Team A Batsmen -->
+            <div class="table-wrapper">
+              <h3 id="teamABatsmenTitle" style="text-align: center; color: #6C63FF; margin-bottom: 10px; font-size: 1rem;">Batsmen</h3>
+              <table id="teamABatsmenTable" style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                <thead>
+                  <tr style="background: #334155;">
+                    <th style="padding: 8px; border: 1px solid #475569;">Player</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">Runs</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">Balls</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">4s</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">6s</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">SR</th>
+                  </tr>
+                </thead>
+                <tbody id="teamABatsmenBody"></tbody>
+              </table>
+            </div>
+
+            <!-- Team A Bowlers -->
+            <div class="table-wrapper">
+              <h3 id="teamABowlersTitle" style="text-align: center; color: #00BFA6; margin-bottom: 10px; font-size: 1rem;">Bowlers</h3>
+              <table id="teamABowlersTable" style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                <thead>
+                  <tr style="background: #334155;">
+                    <th style="padding: 8px; border: 1px solid #475569;">Bowler</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">Runs</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">Balls</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">4s</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">6s</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">Wkts</th>
+                  </tr>
+                </thead>
+                <tbody id="teamABowlersBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team B Section -->
+        <div class="team-section">
+          <h2 id="teamBHeader" class="teamBHeader" style="text-align: center; color: #6C63FF; font-size: 1.3rem; margin-bottom: 15px; text-transform: uppercase;">Team B</h2>
+          
+          <div class="team-tables">
+            <!-- Team B Batsmen -->
+            <div class="table-wrapper">
+              <h3 id="teamBBatsmenTitle" style="text-align: center; color: #6C63FF; margin-bottom: 10px; font-size: 1rem;">Batsmen</h3>
+              <table id="teamBBatsmenTable" style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                <thead>
+                  <tr style="background: #334155;">
+                    <th style="padding: 8px; border: 1px solid #475569;">Player</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">Runs</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">Balls</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">4s</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">6s</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">SR</th>
+                  </tr>
+                </thead>
+                <tbody id="teamBBatsmenBody"></tbody>
+              </table>
+            </div>
+
+            <!-- Team B Bowlers -->
+            <div class="table-wrapper">
+              <h3 id="teamBBowlersTitle" style="text-align: center; color: #00BFA6; margin-bottom: 10px; font-size: 1rem;">Bowlers</h3>
+              <table id="teamBBowlersTable" style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                <thead>
+                  <tr style="background: #334155;">
+                    <th style="padding: 8px; border: 1px solid #475569;">Bowler</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">Runs</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">Balls</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">4s</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">6s</th>
+                    <th style="padding: 8px; border: 1px solid #475569;">Wkts</th>
+                  </tr>
+                </thead>
+                <tbody id="teamBBowlersBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="player-progress-buttons">
+        <button onclick="playerProgressScreenshot()" style="padding: 10px 20px; background: #00BFA6; color: #0f172a; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">📸 Screenshot</button>
+        <button onclick="closePlayerProgress()" style="padding: 10px 20px; background: #6C63FF; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="showcontent" style="display: flex; gap: 8px;width: 95%;margin: 10px auto; padding: 10px 0px;">
     <div class="date" style="width: fit-content; line-height: 12px;">
     <p>🟢 Start Time: <span id="startTime">-</span></p><br>
     <p>🔴 End Time: <span id="endTime">-</span></p>
