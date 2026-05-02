@@ -63,18 +63,60 @@
     <!-- Team and Over Input Form -->
     <form id="teamForm">
       <h2>Enter Teams and Overs</h2>
-      <label>Team A Name:<input type="text" id="teamAName" placeholder="Batsman Team " required></label>
-      <label>Team B Name:<input type="text" id="teamBName" placeholder="Bowler Team" required></label>
-      <label>Overs:<input type="number" id="totalOvers" placeholder="Enter Over" min="1" required></label>
+      <label class="input-box">
+        <span>Team A Name:</span>
+        <div class="field-row">
+          <input type="text" id="teamAName" placeholder="Batsman Team" required ">
+          <button type="button" class="mic-btn" data-target="teamAName">🎙️</button>
+        </div>
+      </label>
+
+      <label class="input-box">
+        <span>Team B Name:</span>
+        <div class="field-row">
+          <input type="text" id="teamBName" placeholder="Bowler Team" required>
+          <button type="button" class="mic-btn" data-target="teamBName">🎙️</button>
+        </div>
+      </label>
+
+      <label class="input-box">
+        <span>Overs:</span>
+        <div class="field-row">
+          <input type="number" id="totalOvers" placeholder="Enter Over" min="1" required>
+          <button type="button" class="mic-btn" data-target="totalOvers">🎙️</button>
+        </div>
+      </label>
+
       <button type="submit">Start Match</button>
     </form>
 
     <!-- Bowler/Striker Form -->
     <form id="playerForm" style="display:none;">
       <h2>Enter Players</h2>
-      <label>Bowler Name:<input type="text" id="bowler" required></label>
-      <label>Striker Name:<input type="text" id="striker" required></label>
-      <label>Non-Striker Name:<input type="text" id="nonStriker" required></label>
+      <label class="input-box">
+        <span>Bowler Name:</span>
+        <div class="field-row">
+          <input type="text" id="bowler" placeholder="Bowler Name" required>
+          <button type="button" class="mic-btn" data-target="bowler">🎙️</button>
+        </div>
+      </label>
+
+      <label class="input-box">
+        <span>Striker Name:</span>
+        <div class="field-row">
+          <input type="text" id="striker" placeholder="Striker Name" required>
+          <button type="button" class="mic-btn" data-target="striker">🎙️</button>
+        </div>
+      </label>
+
+      <label class="input-box">
+        <span>Non-Striker Name:</span>
+        <div class="field-row">
+          <input type="text" id="nonStriker" placeholder="Non-Striker Name" required>
+          <button type="button" class="mic-btn" data-target="nonStriker">🎙️</button>
+        </div>
+      </label>
+
       <button type="submit">Start Innings</button>
     </form>
 
@@ -174,13 +216,18 @@
   justify-content:center; align-items:center;">
     <form id="bowlerForm" style="background:#141b27; padding:20px; border-radius:10px;">
       <h3 style="margin-bottom: 10px;">Enter Bowler Name</h3>
-      <input type="text" id="nextBowler" placeholder="Bowler Name" required>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <input type="text" id="nextBowler" placeholder="Bowler Name" required>
+        <button type="button" class="mic-btn" data-target="nextBowler">🎙️</button>
+      </div>
       <div style="display:flex;margin:10px 0px 0px 10px; justify-content:start; gap: 10px;">
         <button type="submit">Start Over</button>
         <button type="button" id="bowlerCloseBtn" style="background:rgb(220, 13, 13);">Close</button>
       </div>
     </form>
   </div>
+  
 
   <!-- Run Out Modal -->
   <div class="popups" id="roModal" style="display:none; position:fixed; top:0; left:0; 
@@ -190,19 +237,31 @@ justify-content:center; align-items:center;">
     <form id="roForm" style="background:#141b27; padding:20px auto; border-radius:10px;">
       <h3>Run Out</h3>
 
-      <label>New Batsman Name:
-        <input type="text" id="roNewBatsman" required>
+      <label class="input-box">
+        <span>New Batsman Name:</span>
+        <div class="field-row">
+          <input type="text" id="roNewBatsman" required>
+          <button type="button" class="mic-btn" data-target="roNewBatsman">🎙️</button>
+        </div>
       </label>
 
-      <label>Runs Completed:
-        <input type="number" id="roRuns" min="0" max="3" value="0">
+      <label class="input-box">
+        <span>Runs Completed:</span>
+        <div class="field-row">
+          <input type="number" id="roRuns" min="0" max="3" value="0">
+          <button type="button" class="mic-btn" data-target="roRuns">🎙️</button>
+        </div>
       </label>
 
-      <label>Who is Out:</label>
-      <select id="roOutPlayer">
-        <option value="striker">Striker</option>
-        <option value="nonStriker">Non-Striker</option>
-      </select>
+      <label class="input-box">
+        <span>Who is Out:</span>
+        <div class="field-row">
+          <select id="roOutPlayer">
+            <option value="striker">Striker</option>
+            <option value="nonStriker">Non-Striker</option>
+          </select>
+        </div>
+      </label>
 
       <button type="submit" style="margin: 0px 16px 0px 32px;">Submit</button>
 
@@ -213,6 +272,7 @@ justify-content:center; align-items:center;">
 
     </form>
   </div>
+  
 
   <!-- NB Modal -->
   <div class="popups" id="nbModal" style="display:none; position:fixed; top:0; left:0; 
@@ -222,25 +282,37 @@ justify-content:center; align-items:center;">
     <form id="nbForm" style="background:#141b27; padding:20px auto; border-radius:10px;">
       <h3>No Ball</h3>
 
-      <label>Runs Taken:
-        <input type="number" id="nbRuns" min="0" value="0">
+      <label class="input-box">
+        <span>Runs Taken:</span>
+        <div class="field-row">
+          <input type="number" id="nbRuns" min="0" value="0">
+          <button type="button" class="mic-btn" data-target="nbRuns">🎙️</button>
+        </div>
       </label>
 
-      <label>Player Out?</label>
-      <select id="nbOutType">
-        <option value="no">No Wicket</option>
-        <option value="striker">Striker Out</option>
-        <option value="nonStriker">Non-Striker Out</option>
-      </select>
+      <label class="input-box">
+        <span>Player Out?</span>
+        <div class="field-row">
+          <select id="nbOutType">
+            <option value="no">No Wicket</option>
+            <option value="striker">Striker Out</option>
+            <option value="nonStriker">Non-Striker Out</option>
+          </select>
+        </div>
+      </label>
 
-      <label>New Batsman (if out):
-        <input type="text" id="nbNewBatsman">
+      <label class="input-box">
+        <span>New Batsman (if out):</span>
+        <div class="field-row">
+          <input type="text" id="nbNewBatsman">
+          <button type="button" class="mic-btn" data-target="nbNewBatsman">🎙️</button>
+        </div>
       </label>
 
       <div class="btnftr" style="display: flex;align-items: center;justify-content: start;gap: 15px;">
-      <button type="submit"">Submit</button>
-      <button type="button" id="nbCloseBtn" style="background:red;">Close</button>
-      </div>  
+        <button type="submit"">Submit</button>
+            <button type=" button" id="nbCloseBtn" style="background:red;">Close</button>
+      </div>
     </form>
   </div>
 
@@ -252,8 +324,12 @@ justify-content:center; align-items:center;">
     <form id="wForm" style="background:#141b27; padding:20px auto; border-radius:10px;">
       <h3>Wicket</h3>
 
-      <label>New Batsman Name:
-        <input type="text" id="wNewBatsman" required>
+      <label class="input-box">
+        <span>New Batsman Name:</span>
+        <div class="field-row">
+          <input type="text" id="wNewBatsman" required>
+          <button type="button" class="mic-btn" data-target="wNewBatsman">🎙️</button>
+        </div>
       </label>
 
       <button type="submit" style="margin: 0px 10px 0px 0px;">Submit</button>
