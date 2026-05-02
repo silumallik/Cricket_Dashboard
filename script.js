@@ -1,5 +1,48 @@
 let undoUsed = false;
 
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SpeechRecognition) {
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-IN";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    let activeInput = null;
+    document.querySelectorAll(".mic-btn").forEach(btn => {
+        btn.addEventListener("mousedown", () => {
+            activeInput = document.getElementById(btn.dataset.target);
+            recognition.start();
+        });
+        btn.addEventListener("mouseup", () => {
+            recognition.stop();
+
+        });
+        btn.addEventListener("touchstart", () => {
+            activeInput = document.getElementById(btn.dataset.target);
+            recognition.start();
+        });
+        btn.addEventListener("touchend", () => {
+            recognition.stop();
+
+        });
+    });
+    recognition.onresult = function (event) {
+        let text = event.results[0][0].transcript;
+        if (activeInput) { activeInput.value = text; }
+    };
+} else { alert("Speech Recognition not supported in this browser"); }
+
+let match = {
+    overs: 0,
+    totalOvers: 0,
+    teams: {
+        A: { score: 0, wickets: 0, balls: 0, overs: [], players: {}, striker: '', nonStriker: '', bowler: '', bowlers: {}, },
+        B: { score: 0, wickets: 0, balls: 0, overs: [], players: {}, striker: '', nonStriker: '', bowler: '', bowlers: {}, }
+    },
+    currentTeam: 'A',
+    startTime: null,
+    endTime: null
+};
+
 let match = {
     overs: 0,
     totalOvers: 0,
@@ -949,10 +992,11 @@ function renderBowlerTable(teamKey) {
 
     bowlersArray.forEach((b, index) => {
         let bgColor = '';
-        if (index === 0 && b.wickets > 0) bgColor = 'gold';
-        else if (index === 1 && b.wickets > 0) bgColor = '#C0C0C0'; // silver
-        else if (index === 2 && b.wickets > 0) bgColor = '#CD7F32'; // bronze
-        let style = bgColor ? `background-color: ${bgColor};` : '';
+        let color = '';
+        if (index === 0 && b.wickets > 0){ bgColor = 'gold'; color = 'black';}
+        else if (index === 1 && b.wickets > 0){ bgColor = '#C0C0C0'; color = 'black';}// silver
+        else if (index === 2 && b.wickets > 0){ bgColor = '#CD7F32'; color = 'black';} // bronze
+        let style = bgColor ? `background-color: ${bgColor}; color: ${color};` : '';
 
         tbody.innerHTML += `
       <tr style="${style}">
