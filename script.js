@@ -1,35 +1,78 @@
 let undoUsed = false;
 
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+// const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+// if (SpeechRecognition) {
+//     const recognition = new SpeechRecognition();
+//     recognition.lang = "en-IN";
+//     recognition.continuous = false;
+//     recognition.interimResults = false;
+//     let activeInput = null;
+//     document.querySelectorAll(".mic-btn").forEach(btn => {
+//         btn.addEventListener("mousedown", () => {
+//             activeInput = document.getElementById(btn.dataset.target);
+//             recognition.start();
+//         });
+//         btn.addEventListener("mouseup", () => {
+//             recognition.stop();
+
+//         });
+//         btn.addEventListener("touchstart", () => {
+//             activeInput = document.getElementById(btn.dataset.target);
+//             recognition.start();
+//         });
+//         btn.addEventListener("touchend", () => {
+//             recognition.stop();
+
+//         });
+//     });
+//     recognition.onresult = function (event) {
+//         let text = event.results[0][0].transcript;
+//         if (activeInput) { activeInput.value = text; }
+//     };
+// } else { alert("Speech Recognition not supported in this browser"); }
+
+const SpeechRecognition =
+window.SpeechRecognition || window.webkitSpeechRecognition;
+
 if (SpeechRecognition) {
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-IN";
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    let activeInput = null;
-    document.querySelectorAll(".mic-btn").forEach(btn => {
-        btn.addEventListener("mousedown", () => {
-            activeInput = document.getElementById(btn.dataset.target);
-            recognition.start();
-        });
-        btn.addEventListener("mouseup", () => {
-            recognition.stop();
 
-        });
-        btn.addEventListener("touchstart", () => {
-            activeInput = document.getElementById(btn.dataset.target);
-            recognition.start();
-        });
-        btn.addEventListener("touchend", () => {
-            recognition.stop();
+  const recognition = new SpeechRecognition();
+  recognition.lang = "en-IN";
+  recognition.continuous = false;
+  recognition.interimResults = false;
 
-        });
-    });
-    recognition.onresult = function (event) {
-        let text = event.results[0][0].transcript;
-        if (activeInput) { activeInput.value = text; }
+  let activeInput = null;
+
+  document.querySelectorAll(".mic-btn").forEach(btn => {
+
+    const startMic = () => {
+      activeInput = document.getElementById(btn.dataset.target);
+      recognition.start();
     };
-} else { alert("Speech Recognition not supported in this browser"); }
+
+    const stopMic = () => {
+      recognition.stop();
+    };
+
+    btn.addEventListener("click", startMic);     // Best for Vercel/mobile
+    btn.addEventListener("touchstart", startMic);
+
+  });
+
+  recognition.onresult = (e) => {
+    const text = e.results[0][0].transcript;
+    if (activeInput) activeInput.value = text;
+  };
+
+  recognition.onerror = (e) => {
+    alert("Mic Error: " + e.error);
+    console.log(e);
+  };
+
+}
+else{
+  alert("Speech Recognition not supported");
+}
 
 let match = {
     overs: 0,
