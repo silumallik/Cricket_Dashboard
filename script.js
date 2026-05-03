@@ -31,6 +31,7 @@ let undoUsed = false;
 //     };
 // } else { alert("Speech Recognition not supported in this browser"); }
 
+
 const SpeechRecognition =
 window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -73,18 +74,6 @@ if (SpeechRecognition) {
 else{
   alert("Speech Recognition not supported");
 }
-
-let match = {
-    overs: 0,
-    totalOvers: 0,
-    teams: {
-        A: { score: 0, wickets: 0, balls: 0, overs: [], players: {}, striker: '', nonStriker: '', bowler: '', bowlers: {}, },
-        B: { score: 0, wickets: 0, balls: 0, overs: [], players: {}, striker: '', nonStriker: '', bowler: '', bowlers: {}, }
-    },
-    currentTeam: 'A',
-    startTime: null,
-    endTime: null
-};
 
 let match = {
     overs: 0,
@@ -1036,9 +1025,10 @@ function renderBowlerTable(teamKey) {
     bowlersArray.forEach((b, index) => {
         let bgColor = '';
         let color = '';
-        if (index === 0 && b.wickets > 0){ bgColor = 'gold'; color = 'black';}
-        else if (index === 1 && b.wickets > 0){ bgColor = '#C0C0C0'; color = 'black';}// silver
-        else if (index === 2 && b.wickets > 0){ bgColor = '#CD7F32'; color = 'black';} // bronze
+        // bg gold pey color black, silver pey color white, bronze pey color white
+        if (index === 0 && b.wickets > 0){bgColor = 'gold'; color = 'black';} // gold
+        else if (index === 1 && b.wickets > 0){ bgColor = '#C0C0C0'; color = 'black'; } // silver
+        else if (index === 2 && b.wickets > 0){ bgColor = '#CD7F32'; color = 'white'; }// bronze
         let style = bgColor ? `background-color: ${bgColor}; color: ${color};` : '';
 
         tbody.innerHTML += `
